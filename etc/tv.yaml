@@ -1,0 +1,10 @@
+MODE: dev
+Name: tv
+Host: 0.0.0.0
+Port: 9876
+Timeout: 50000
+# 修改配置需要程序验证服务器，才能生效
+Username: "admin"
+Password: "admin123" # 主要用于规则引擎修改
+PlusKey: "diyp" # 主要用于播放链接生成，
+HiddenUnknownGroup: false # 用于未知分组是否显示

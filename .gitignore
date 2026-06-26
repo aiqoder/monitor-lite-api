@@ -1,0 +1,8 @@
+.DS_Store
+*.exe
+*.db
+dist/
+etc/sqlite.db
+
+ui/node_modules/
+ui/dist/

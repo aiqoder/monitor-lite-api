@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    margin: 0;
+    height: 100vh;
+    min-width: 960px;
+    background-image: url(@/assets/flat-mountains.svg);
+    background-repeat: no-repeat;
+    background-size: 100%;
+
+    --el-color-primary: #8A2BE2;
+    --el-color-primary-light-3: #8A2BE290;
+    --el-color-primary-light-5: #8A2BE280;
+
+    .el-table {
+        --el-table-header-bg-color: #8A2BE2;
+        --el-table-header-text-color: #ffffff;
+    }
+}
+
+#app {
+    height: 100%;
+}
