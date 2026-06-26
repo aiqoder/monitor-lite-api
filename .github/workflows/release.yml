@@ -9,7 +9,7 @@ on:
       tag:
         description: 'Release tag (e.g. v1.6.0)'
         required: true
-        default: 'v1.6.0'
+        default: 'v1.6.1'
 
 permissions:
   contents: write
@@ -97,7 +97,7 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.23'
+          go-version: '1.25'
 
       - name: Download UI artifact
         uses: actions/download-artifact@v4

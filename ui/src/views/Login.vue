@@ -18,7 +18,7 @@
 <script setup lang="ts">
 import Login from "@/components/Login.vue"
 import { onMounted, ref } from "vue";
-import { version } from "../../package.json"
+const version = import.meta.env.VITE_APP_VERSION || 'dev'
 const mode = ref<"email" | "wechat">("email")
 </script>
 <style scoped lang="scss">

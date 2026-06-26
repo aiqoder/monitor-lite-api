@@ -2,10 +2,8 @@ package logic
 
 import (
 	"fmt"
-	"os"
 	"strings"
 	"github.com/aiqoder/monitor-lite-api/pkg/common/tools"
-	"github.com/aiqoder/monitor-lite-api/internal/logic/proxy"
 	"github.com/aiqoder/monitor-lite-api/internal/pkg/rulecache"
 	"github.com/aiqoder/monitor-lite-api/internal/svc"
 	"github.com/aiqoder/monitor-lite-api/model"
@@ -217,15 +215,6 @@ func genM3u(svcCtx *svc.ServiceContext) string {
 				Group:       group,
 			})
 		}
-	}
-
-	if os.Getenv("PROXY") == "1" {
-		for i := 0; i < len(proxy.ProxyTvs); i++ {
-			tv := &proxy.ProxyTvs[i]
-			tv.Url = os.Getenv("PROXY_HOST") + tv.Url
-		}
-		list2 = append(list2, proxy.ProxyTvs...)
-		os.Setenv("PROXY_HOST", "")
 	}
 
 	with := slice.GroupWith(list2, func(item model.Tv) string {

@@ -19,7 +19,6 @@ import (
 	ffmpeg "github.com/u2takey/ffmpeg-go"
 	epg "github.com/aiqoder/monitor-lite-api/internal/handler/epg"
 	"github.com/aiqoder/monitor-lite-api/internal/handler"
-	proxy "github.com/aiqoder/monitor-lite-api/internal/handler/proxy"
 	selfout "github.com/aiqoder/monitor-lite-api/internal/handler/selfout"
 	subscriber "github.com/aiqoder/monitor-lite-api/internal/handler/subscriber"
 	"github.com/aiqoder/monitor-lite-api/internal/pkg/log"
@@ -74,13 +73,6 @@ func registerAPI(r *gin.Engine, ctx *svc.ServiceContext) {
 		setting.POST("/update", handler.UpdateSettingHandler(ctx))
 		setting.POST("/changePassword", handler.ChangePasswordHandler(ctx))
 		setting.GET("/aiModels", handler.AiModelsHandler(ctx))
-	}
-
-	proxyGroup := r.Group("/v1/proxy")
-	{
-		proxyGroup.GET("/fengshows", proxy.FengShowsHandler(ctx))
-		proxyGroup.GET("/ptbtv", proxy.PtbtvHandler(ctx))
-		proxyGroup.GET("/iqilu", proxy.IQiLuHandler(ctx))
 	}
 
 	sub := r.Group("/v1/subscriber")
@@ -298,7 +290,7 @@ func AuthMiddleware() gin.HandlerFunc {
 		if tools.StrInContains(uri, []string{
 			"/cus", "/video/play", "/v1/tv/w/", "/v1/tv/tips",
 			"/v1/tv/identify", "/admin", "/epg/diyp", "/epg/collect",
-			"/v1/proxy", "/logo",
+			"/logo",
 		}) {
 			c.Next()
 			return
