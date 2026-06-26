@@ -1,14 +1,17 @@
 # monitor-lite-api
 
-IPTV 直播源监控与管理服务（Web 管理端名称：wtv-manage）。提供直播源的采集、检测、分组、订阅、EPG 及 M3U 播放列表输出，内置 Web 管理界面与若干电视台代理接口。
+IPTV 直播源监控与管理服务（Web 管理端名称：wtv-manage）。提供直播源的采集、检测、分组、订阅、EPG 及 M3U 播放列表输出口
 
 ## 功能概览
+
+### 默认账号密码
+
+admin/admin123
 
 ### 媒体管理
 
 - 维护本地 SQLite 中的直播源（增删改查、批量操作）
 - 通过 FFmpeg 检测源可用性，记录分辨率、码率、失败次数等
-- 按规则引擎自动分组、频道名标准化 from `etc/rule.yaml`
 - 支持黑名单过滤、失效源自动删除
 
 ### 订阅池
@@ -107,27 +110,6 @@ go run . -f etc/tv.yaml
 | 每 120 分钟 | 按规则重新分组 | 系统设置「自动分组」 |
 | 每天 08:00 | 采集 EPG | 系统设置「自动更新 EPG」 |
 
-## 主要 API
-
-```
-GET  /v1/tv/json          搜索/查询频道
-GET  /v1/tv/page          分页列表
-POST /v1/tv/update        更新频道
-POST /v1/tv/check         检测单个源
-POST /v1/tv/checkAll      批量检测
-POST /v1/tv/batchupdate   批量更新
-POST /v1/tv/batchdelete   批量删除
-GET  /v1/tv/rule/get      获取规则
-POST /v1/tv/rule/update   更新规则
-GET  /v1/setting/find     获取系统设置
-POST /v1/setting/update   更新系统设置
-GET  /v1/video/play       WebSocket 视频预览（参数 url）
-GET  /v1/subscriber/*     订阅池管理
-GET  /v1/selfout/*        自建输出策略
-```
-
-除公开路径（播放列表、代理、Logo、登录等）外，API 需在请求头携带 `session-id`（JWT Token）。
-
 ## 部署
 
 ### 自动发布
@@ -183,17 +165,6 @@ irm "https://github.com/<owner>/<repo>/releases/latest/download/install.ps1" | i
 可通过环境变量自定义仓库：`GITHUB_REPO=owner/repo`。
 
 默认安装路径：Linux `/opt/wtv`，macOS `~/.wtv`，Windows `C:\Program Files\wtv`。服务监听 `9876` 端口。
-
-### Docker 镜像
-
-```bash
-docker tag ea7b7ca1cdd9 ygcz/wtv-server:1.2.5
-```
-
-参考：
-
-- https://blog.51cto.com/u_14850/11271288
-- https://blog.csdn.net/m624197265/article/details/141719515
 
 ### 交叉编译
 
