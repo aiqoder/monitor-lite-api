@@ -1,0 +1,9 @@
+.git
+.github
+dist/
+ui/node_modules/
+ui/dist/
+etc/sqlite.db
+*.db
+*.exe
+.DS_Store
