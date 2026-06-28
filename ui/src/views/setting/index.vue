@@ -3,7 +3,7 @@
         <el-tabs v-model="activeTab" class="setting-tabs">
             <el-tab-pane label="通用设置" name="general">
                 <ProForm
-                    :columns="generalColumns"
+                    :columns="generalFormColumns"
                     :span="24"
                     :btn-position="'center'"
                     :display-expend="false"
@@ -106,7 +106,7 @@
 
             <el-tab-pane label="AI设置" name="ai">
                 <ProForm
-                    :columns="aiColumns"
+                    :columns="aiFormColumns"
                     :span="24"
                     :btn-position="'center'"
                     :display-expend="false"
@@ -114,16 +114,17 @@
                     ok-text="保存"
                     @ok="submit"
                 >
-                    <template #aiBaseUrl="{ data }">
+                    <template #aiBaseUrl>
                         <ElInput
-                            v-model:model-value="data.value"
+                            :model-value="getValue('aiBaseUrl')"
                             placeholder="OpenAI 兼容 API，如 https://api.openai.com/v1"
+                            @update:model-value="(v) => setValue('aiBaseUrl', v)"
                             @blur="fetchModels"
                         />
                     </template>
-                    <template #aiApiKey="{ data }">
+                    <template #aiApiKey>
                         <ElInput
-                            v-model:model-value="data.value"
+                            :model-value="getValue('aiApiKey')"
                             type="text"
                             autocomplete="off"
                             autocapitalize="off"
@@ -134,6 +135,7 @@
                             :class="{ 'api-key-masked': !apiKeyVisible }"
                             data-1p-ignore
                             data-lpignore="true"
+                            @update:model-value="(v) => setValue('aiApiKey', v)"
                             @blur="fetchModels"
                         >
                             <template #suffix>
@@ -146,10 +148,10 @@
                             </template>
                         </ElInput>
                     </template>
-                    <template #aiModel="{ data }">
+                    <template #aiModel>
                         <div class="flex w-full items-center gap-2">
                             <el-select
-                                v-model="data.value"
+                                :model-value="getValue('aiModel')"
                                 filterable
                                 allow-create
                                 default-first-option
@@ -157,6 +159,7 @@
                                 placeholder="选择或输入模型名称"
                                 :loading="modelsLoading"
                                 class="flex-1"
+                                @update:model-value="(v) => setValue('aiModel', v)"
                             >
                                 <el-option v-for="m in modelOptions" :key="m" :label="m" :value="m" />
                             </el-select>
@@ -306,7 +309,21 @@ const aiColumns = [
     },
 ]
 
-const { getValue, setValue } = createProForm([...generalColumns, ...aiColumns])
+const AI_KEYS = new Set(['aiBaseUrl', 'aiApiKey', 'aiModel'])
+
+const { formColumns: generalFormColumns, setValue: setGeneralValue, getValue: getGeneralValue } =
+    createProForm(generalColumns)
+const { formColumns: aiFormColumns, setValue: setAiValue, getValue: getAiValue } = createProForm(aiColumns)
+
+function setValue(key: string, value: unknown) {
+    if (AI_KEYS.has(key)) setAiValue(key, value)
+    else setGeneralValue(key, value)
+}
+
+function getValue(key: string) {
+    if (AI_KEYS.has(key)) return getAiValue(key)
+    return getGeneralValue(key)
+}
 
 onMounted(() => {
     syncTabFromRoute()
